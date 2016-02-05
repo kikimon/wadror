@@ -7,6 +7,9 @@ gem 'rails', '4.2.5'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 
+#For password encryption
+gem 'bcrypt', '~> 3.1.7'
+
 group :development, :test do
   gem 'sqlite3'
 end

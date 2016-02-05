@@ -4,11 +4,12 @@
 
 <ul>
  <% @ratings.each do |rating| %>
-   <li> <%= rating %> <%= link_to 'Destroy', rating, method: :delete, data: { confirm: 'Do you really want to destroy this?' } %></li>
+   <li> <%= rating %> <%= link_to rating.user.username, rating.user%></li>
  <% end %>
 </ul>
 
+<% if current_user %>
 <%= link_to 'New Rating', new_rating_path %>
-
+<% end %>
 
 

@@ -19,7 +19,7 @@
 <% if @user.ratings.empty? %>
  Has not made any ratings.
 <% else %>
- Has made <%= pluralize(@user.ratings.count, 'rating')%>, average <%= @user.average_rating %> 
+ Has made <%= pluralize(@user.ratings.count, 'rating')%>, average <%= @user.average_rating %>, favorite style is <%= @user.favorite_style %>  
 <% end %>
 </p>
 
@@ -38,3 +38,4 @@
 <%= link_to 'Change password', edit_user_path(@user) %> |
 <%= link_to 'Remove User Account', @user, method: :delete, data: { confirm: 'Are you sure?' } %>
 <% end %>
+<%= link_to 'Back', users_path %>

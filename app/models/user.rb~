@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
    include RatingAverage
    
    has_secure_password
-   has_many :ratings   # käyttäjällä on monta ratingia
+   has_many :ratings, dependent: :destroy  # käyttäjällä on monta ratingia
    has_many :memberships, dependent: :destroy
    has_many :beers, through: :ratings
    has_many :beer_clubs, through: :memberships
@@ -22,5 +22,31 @@ class User < ActiveRecord::Base
 	if not reg.match(password)
            errors.add(:password, "must contain 4 characters, including one number and one capitalized letter.") 
         end
+   end
+
+   def favorite_beer
+      return nil if ratings.empty?   # palautetaan nil jos reittauksia ei ole
+      #ratings.first.beer             palataan ensimmaiseen reittaukseen liittyvä olut
+      #sortataan scoren mukaan oluet, alin eli korkein score -> mieliolut
+      #ratings.sort_by{ |r| r.score }.last.beer
+      #voidaan tehdä myös:
+      #ratings.sort_by(&:score).last.beer
+      #sortataan tietokantakyselyssä, käänteinen järjestys ja ensimmäinen (limit(1)) ja first.beer
+      ratings.order(score: :desc).limit(1).first.beer
+   end
+
+   def favorite_style
+      return nil if ratings.empty? 
+      #styles = ratings.select{ |r| r.beer.style}.sort_by{ |r| r.beer.style}.group_by{|r|r.beer.style}
+      styles.each do |style|
+      #ratings_per_style = ratings.where{|r| r.beer.style == style}
+      #ratings_per_style.map{ |r| r.score }.sum / ratings_per_style.count.to_f
+      ratings.map{|r| r.beer.style == style}.sum / ratings.select{|r| r.beer.style == style}.count.to_f
+      #Rating.all.select{ |r| r.beer.style => style }.each{ |r| r.delete }
+      end
+   end
+
+   def styles
+      styles = ["Weizen", "Lager", "Pale ale", "IPA", "Porter"];
    end
 end

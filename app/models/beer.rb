@@ -4,7 +4,8 @@ class Beer < ActiveRecord::Base
  has_many :raters, through: :ratings, source: :user
  
  validates :name, presence: true
- 
+ validates :style, presence: true
+
  include RatingAverage
 # def average_rating
 #   self.ratings.average(:score)

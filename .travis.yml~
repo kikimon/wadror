@@ -1,0 +1,15 @@
+language: ruby
+rvm:
+- 2.3.0
+script:
+- bundle exec rake db:migrate --trace
+- RAILS_ENV=test bundle exec rake db:migrate --trace
+- bundle exec rake db:test:prepare
+- bundle exec rspec -fd spec/
+deploy:
+  provider: heroku
+  api_key:
+    secure: YbqhYH62UVuIwlbM1XQ0au/CcByi/TJRElGVIaITVyFUK7J6MnmklPNPlPxe6UoyTutE3fxGc0Y/4uOYsHGCIrUUhEgoihtYRzVHfQ3K9ISCaSRR9CiKAmouqC6X/x6qzqIOpbn4dBD+pliBzCH9XY2f2cEYqokIwcLtlgFyOUwmc2WXayqmN5QBBwHWOEWoulvezMsfHWR41B0fty/qgs+ej4/V/OVrLkNtcCk2n1YpTS3jXyckWIpc4rRh8dpVnevvYp4KbDYmUahl6K5TCiAzRQbZhbgXGYQ34jbNghNr58vt4NI8KVP0n35vRi3VnHq7L/LJEQy5dxEITIfzcVBuO8NiNwVrqeYn3m5EsFuw+3S/F+ezC4kETbDSWNH+CklPFIQiiVwTzxljjO1xWJjO9VBzsJq7TOhuGB0cd+wsYuneN1H5vINYrLW+kn+GllQcUAasKCblgKNmf+0TvdZtDGXhMZ4j1Mvxp9TCKiD/45IUEcTVKgnv8Ike5tvbOTgDsPXzq7UqMXy7fYcFSfVw91KsdIRHEBK1zH32npz+Ic0lqinwJLhinDEQML9pB/lkdRCguNM+eg4Z1TAPiwl1SKrxfwEXNGv85q5eSeAvZljdmVedSCvez/IB5yH4BBO3A044R+aSr4Hl7bzqTfZtmniwqgtNU6VOPiVVFgc=
+  app: tranquil-wave-19525
+  on:
+    repo: kikimon/wadror

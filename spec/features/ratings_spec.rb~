@@ -58,7 +58,7 @@ describe "Rating" do
      rating2 = Rating.create score:"30", beer: beer2, user: user
      
      visit user_path(user)
-     expect(user.ratings.count).to eq()  
+     expect(user.ratings.count).to eq(2)  
      find(:xpath, "//a[@href='/ratings/1']").click
      expect(user.ratings.count).to eq(1) 
      save_and_open_page 

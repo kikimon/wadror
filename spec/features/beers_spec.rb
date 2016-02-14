@@ -4,7 +4,12 @@ include Helpers
 
 
 describe "Beers page" do
+  let!(:user){ FactoryGirl.create(:user) } 
   let!(:brewery) { FactoryGirl.create :brewery, name:"Saimaan juomatehdas" }
+
+  before :each do
+    sign_in(username:"Pekka", password:"Foobar1")
+  end
 
   it "It should be able to add beer" do
     visit new_beer_path

@@ -1,0 +1,9 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Beer place</h1>
+
+<% if session[:search_result] %>
+  <%= session[:search_result].each do |place| %>
+     <p><%= place.Place.id %></p>   
+  <% end %>    
+<% end %>

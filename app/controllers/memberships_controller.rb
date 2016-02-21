@@ -16,7 +16,13 @@ class MembershipsController < ApplicationController
   # GET /memberships/new
   def new
     @membership = Membership.new
-    @beer_clubs = BeerClub.all
+    @beer_clubs = BeerClub.all.reject{ |club| current_user.in? club.members } 
+    #respond_to do |format|
+    #  @membership.save              
+    #    format.html { redirect_to :root, notice: 'Membership was successfully created.' }
+    #    format.json { render :show, status: :created, location: show_beer_club_path(@membership.beer_club_id)}
+    #  end
+    
   end
 
   # GET /memberships/1/edit
@@ -28,18 +34,15 @@ class MembershipsController < ApplicationController
   def create
     #@membership = Membership.create params.require(:membership).permit(:beer_club_id)
     @membership = Membership.new(membership_params)
+    #beer_club = BeerClub.find membership_params[:beer_club_id]
     current_user.memberships << @membership
-   
-    respond_to do |format|
+
       if @membership.save              
-        format.html { redirect_to :root, notice: 'Membership was successfully created.' }
-        format.json { render :show, status: :created, location: show_beer_club_path(@membership.beer_club_id)}
+        redirect_to beer_club_path(@membership.beer_club_id), notice: "#{current_user.username} welcome to the club."
       else
         @beer_clubs = BeerClub.all
-        format.html { render :new }
-        format.json { render json: @membership.errors, status: :unprocessable_entity }
+        render :new
       end
-    end
   end
 
   # PATCH/PUT /memberships/1
@@ -59,11 +62,16 @@ class MembershipsController < ApplicationController
   # DELETE /memberships/1
   # DELETE /memberships/1.json
   def destroy
+
+    #lisättävä että näytetään olutklubin nimi erottaessa
+    beer_club = @membership.beer_club
     @membership.destroy if current_user == @membership.user
-    respond_to do |format|
-      format.html { redirect_to :root, notice: 'Membership was successfully removed' }
-      format.json { head :no_content }
-    end
+    
+    #respond_to do |format|
+    #  format.html { redirect_to current_user, notice: 'Membership in club has ended.' }
+    #  format.json { head :no_content }
+    redirect_to current_user, notice: "Membership in #{beer_club.name} has ended." 
+    #end
   end
 
   private

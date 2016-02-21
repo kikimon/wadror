@@ -50,7 +50,7 @@ describe "Rating" do
      expect(page).to have_content rating2.beer.name
      expect(page).to have_no_content rating3.beer.name
      expect(page).to have_no_content rating3.score
-     save_and_open_page 
+     #save_and_open_page 
   end
 
   it "when user deletes given rating, rating is removed from database" do
@@ -61,6 +61,6 @@ describe "Rating" do
      expect(user.ratings.count).to eq(2)  
      find(:xpath, "//a[@href='/ratings/1']").click
      expect(user.ratings.count).to eq(1) 
-     save_and_open_page 
+     #save_and_open_page 
   end
 end

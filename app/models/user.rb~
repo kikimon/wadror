@@ -34,19 +34,32 @@ class User < ActiveRecord::Base
       #sortataan tietokantakyselyssä, käänteinen järjestys ja ensimmäinen (limit(1)) ja first.beer
       ratings.order(score: :desc).limit(1).first.beer
    end
-
+  
    def favorite_style
-      return nil if ratings.empty? 
-      #styles = ratings.select{ |r| r.beer.style}.sort_by{ |r| r.beer.style}.group_by{|r|r.beer.style}
-      styles.each do |style|
-      #ratings_per_style = ratings.where{|r| r.beer.style == style}
-      #ratings_per_style.map{ |r| r.score }.sum / ratings_per_style.count.to_f
-      ratings.map{|r| r.beer.style == style}.sum / ratings.select{|r| r.beer.style == style}.count.to_f
-      #Rating.all.select{ |r| r.beer.style => style }.each{ |r| r.delete }
-      end
-   end
+    return nil if ratings.empty?
 
-   def styles
-      styles = ["Weizen", "Lager", "Pale ale", "IPA", "Porter"];
-   end
+    rated = ratings.map{ |r| r.beer.style }.uniq
+    rated.sort_by { |style| -rating_of_style(style) }.first
+  end
+
+  def favorite_brewery
+    return nil if ratings.empty?
+
+    rated = ratings.map{ |r| r.beer.brewery }.uniq
+    rated.sort_by { |brewery| -rating_of_brewery(brewery) }.first
+  end
+
+  private
+
+  def rating_of_style(style)
+    ratings_of = ratings.select{ |r| r.beer.style==style }
+    ratings_of.map(&:score).inject(&:+) / ratings_of.count.to_f
+  end
+
+  def rating_of_brewery(brewery)
+    ratings_of = ratings.select{ |r| r.beer.brewery==brewery }
+    ratings_of.map(&:score).inject(&:+) / ratings_of.count.to_f
+  end
+
+   
 end

@@ -19,7 +19,7 @@
 <% if @user.ratings.empty? %>
  Has not made any ratings.
 <% else %>
- Has made <%= pluralize(@user.ratings.count, 'rating')%>, average <%= @user.average_rating %>, favorite style is <%= @user.favorite_style %>  
+ Has made <%= pluralize(@user.ratings.count, 'rating')%>, average <%= @user.average_rating %> 
 <% end %>
 </p>
 

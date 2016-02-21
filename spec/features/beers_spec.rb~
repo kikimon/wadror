@@ -6,6 +6,7 @@ include Helpers
 describe "Beers page" do
   let!(:user){ FactoryGirl.create(:user) } 
   let!(:brewery) { FactoryGirl.create :brewery, name:"Saimaan juomatehdas" }
+  let!(:style) { FactoryGirl.create :style, name:"Lager" }
 
   before :each do
     sign_in(username:"Pekka", password:"Foobar1")
@@ -14,7 +15,7 @@ describe "Beers page" do
   it "It should be able to add beer" do
     visit new_beer_path
     fill_in('beer[name]', with:'Keisari 66')
-    select('Lager', from:'beer[style]')
+    #select('Lager', from:'beer[style]')
     expect{
       click_button "Create Beer"
     }.to change{Beer.count}.from(0).to(1)
@@ -24,7 +25,7 @@ describe "Beers page" do
 
   it "It should not let beer without a name to be added" do
     visit new_beer_path
-    select('Lager', from:'beer[style]')
+    #select('Lager', from:'beer[style]')
     click_button "Create Beer"
 
     expect(Beer.count).to eq(0)

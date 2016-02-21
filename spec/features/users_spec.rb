@@ -33,4 +33,14 @@ describe "User" do
       click_button('Create User')
     }.to change{User.count}.by(1)
   end
+
+  #it "the favorite style is shown at user's page" do
+  #    visit user_path(user)
+  #    expect(page).to have_content 'Favorite style IPA'
+  #  end
+
+  #  it "the favorite brewery is shown at user's page" do
+  #    visit user_path(user)
+  #    expect(page).to have_content 'Favorite brewery Sierra Nevada'
+  #  end
 end

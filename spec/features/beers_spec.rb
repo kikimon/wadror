@@ -6,6 +6,7 @@ include Helpers
 describe "Beers page" do
   let!(:user){ FactoryGirl.create(:user) } 
   let!(:brewery) { FactoryGirl.create :brewery, name:"Saimaan juomatehdas" }
+  let!(:style) { FactoryGirl.create :style, name:"Lager" }
 
   before :each do
     sign_in(username:"Pekka", password:"Foobar1")

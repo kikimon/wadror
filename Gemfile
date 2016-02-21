@@ -6,18 +6,20 @@ ruby '2.3.0'
 gem 'rails', '4.2.5'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
+gem 'httparty'
 
 #Rspec for testing purpose
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
 end
 
-#For test fixtures
+#For test factories, mock etc
 group :test do
   gem 'factory_girl_rails'
   gem 'capybara'
   gem 'launchy'
   gem 'simplecov', require: false
+  gem 'webmock'
 end
 
 

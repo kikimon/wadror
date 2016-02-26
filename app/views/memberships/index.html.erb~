@@ -26,4 +26,4 @@
 <% end %>
 <br>
 
-<%= link_to 'New Membership', new_membership_path %>
+<%= link_to 'Join a club', new_membership_path %>

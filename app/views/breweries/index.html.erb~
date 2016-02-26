@@ -1,31 +1,23 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Breweries</h1>
+<h1>Breweries</h1>
 
-<p>Number of breweries: <%= @breweries.count %></p>
+<h2>Active</h2>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Year</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<p> Number of active breweries: <span class="badge"><%= @active_breweries.count %></span></p>
 
-  <tbody>
-    <% @breweries.each do |brewery| %>
-      <tr>
-        <td><%= link_to brewery.name, brewery %></td>
-        <td><%= brewery.year %></td>
-        <td><%= link_to('Edit', edit_brewery_path(brewery)) if current_user %></td>
-        <td><%= link_to('Destroy', brewery, method: :delete, data: { confirm: 'Are you sure?' }) if current_user %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= render 'list', breweries: @active_breweries %>
+
+<h2>Retired</h2>
+
+<% if @retired_breweries.empty? %>
+    <p>None of the breweries is retired. </p>
+<% else %>
+    <p> Number of retired breweries: <span class="badge"><%= @retired_breweries.count %></span></p>
+    <%= render 'list', breweries: @retired_breweries %>
+<% end %>
 
 <br>
-<%= link_to('New Brewery', new_brewery_path) if current_user %>
+<%= link_to('New Brewery', new_brewery_path, class:"btn btn-primary") if current_user %>
 <br>
 <%= link_to 'List of beers', beers_path %>

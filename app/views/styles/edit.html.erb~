@@ -19,10 +19,10 @@
   </div>
   <div class="field">
     <%= f.label :description %><br>
-    <%= f.textarea :description %>
+    <%= f.text_area :description %>
   </div>
 
-    <%= f.submit %>
+    <%= f.submit class:"btn btn-primary"%>
 <% end %>
 
 <%= link_to 'Show', @style %> |

@@ -6,4 +6,8 @@
     <% end %>
   </ul>
 
+<br>
+<%= link_to('New style', new_style_path) if current_user %>
+<br>
+
 

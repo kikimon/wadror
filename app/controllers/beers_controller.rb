@@ -81,6 +81,6 @@ class BeersController < ApplicationController
  
     def set_breweries_and_styles_for_template
       @breweries = Brewery.all
-      @styles = Styles.all
+      @styles = Style.all
     end
 end

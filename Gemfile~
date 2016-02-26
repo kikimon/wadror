@@ -13,7 +13,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
 end
 
-#For test
+#For test factories, mock etc
 group :test do
   gem 'factory_girl_rails'
   gem 'capybara'

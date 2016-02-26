@@ -25,6 +25,7 @@ class PlacesController < ApplicationController
   end
 
   def show
+     @place_id = params[:id]
      @places = session[:search_result]	
   end
 

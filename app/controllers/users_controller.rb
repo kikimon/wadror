@@ -37,6 +37,19 @@ class UsersController < ApplicationController
     end
   end
 
+  #change the banning status of a user, banned <-> not banned
+  def toggle_banning
+
+   if current_user.admin
+    user = User.find(params[:id])
+    user.update_attribute :banned, (not user.banned)
+
+    new_status = user.banned? ? "true" : "false"
+
+    redirect_to :back, notice:"user account banned: #{new_status}"
+   end
+  end 
+
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update

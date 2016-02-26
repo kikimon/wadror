@@ -1,35 +1,18 @@
 class PlacesController < ApplicationController
   def index
-     #@places = session[:search_result]	
+  end
+
+  def show
+    @place = BeermappingApi.place_in(params[:id], session[:last_city])
   end
 
   def search
-    # api_key = ""
-    # url = "http://beermapping.com/webservice/loccity/#{api_key}/"
-    # tai vaihtoehtoisesti
-    #url = 'http://stark-oasis-9187.herokuapp.com/api/'
-
-    #response = HTTParty.get "#{url}#{ERB::Util.url_encode(params[:city])}"
-    #places_from_api = response.parsed_response["bmp_locations"]["location"]
-    #@places = [ Place.new(places_from_api.first) ]
-    #@places = response.parsed_response["bmp_locations"]["location"].map do | place |
-    #  Place.new(place)
-   
     @places = BeermappingApi.places_in(params[:city])
     if @places.empty?
       redirect_to places_path, notice: "No locations in #{params[:city]}"
     else
-      session[:search_result] = @places
+      session[:last_city] = params[:city]
       render :index
     end
-  end
-
-  def show
-     @place_id = params[:id]
-     @places = session[:search_result]	
-  end
-
-  def set_place
-      #@place = session[:search_result]
   end
 end

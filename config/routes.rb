@@ -2,9 +2,15 @@ Rails.application.routes.draw do
   resources :memberships
   resources :beer_clubs
   resources :users
+  resources :users do
+    post 'toggle_banning', on: :member
+  end  
   root 'breweries#index'
   resources :beers
   resources :breweries
+  resources :breweries do
+    post 'toggle_activity', on: :member
+  end  
   resources :ratings, only: [:index, :new, :create, :destroy]
   resources :styles
   resources :memberships, only: [:new, :create, :destroy]
@@ -19,7 +25,8 @@ Rails.application.routes.draw do
   delete 'signout', to: 'sessions#destroy'
   post 'places', to:'places#search'
   
-  
+
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

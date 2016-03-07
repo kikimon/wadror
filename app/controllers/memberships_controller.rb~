@@ -36,20 +36,28 @@ class MembershipsController < ApplicationController
     @membership = Membership.new(membership_params)
     #beer_club = BeerClub.find membership_params[:beer_club_id]
     current_user.memberships << @membership
-   
-current_user.username
 
-    respond_to do |format|
       if @membership.save              
-        format.html { redirect_to beer_club_path(@membership.beer_club_id), notice: 'welcome to the club.' }
-        format.json { render :show, status: :created, location: show_beer_club_path(@membership.beer_club_id)}
+        redirect_to beer_club_path(@membership.beer_club_id), notice: "#{current_user.username} your membership for this club is pending."
       else
         @beer_clubs = BeerClub.all
-        format.html { render :new }
-        format.json { render json: @membership.errors, status: :unprocessable_entity }
+        render :new
       end
-    end
   end
+
+  #confirm membership
+  def confirm
+   club = @membership.beer_club
+   
+   if current_user.in? club.members
+    membership = Membership.find_by(user_id = params[:id])
+    if not membership.confirmed
+    membership.update_attribute(:confirmed, true)
+
+    redirect_to :back, notice:"club membership confirmed"
+   end
+   end 
+  end 
 
   # PATCH/PUT /memberships/1
   # PATCH/PUT /memberships/1.json
@@ -76,7 +84,7 @@ current_user.username
     #respond_to do |format|
     #  format.html { redirect_to current_user, notice: 'Membership in club has ended.' }
     #  format.json { head :no_content }
-    redirect_to current_user, notice: "Membership in  #{beer_club.name} has ended." 
+    redirect_to current_user, notice: "Membership in #{beer_club.name} has ended." 
     #end
   end
 
@@ -88,6 +96,6 @@ current_user.username
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def membership_params
-      params.require(:membership).permit(:beer_club_id)
+      params.require(:membership).permit(:beer_club_id, :confirmed)
     end
 end

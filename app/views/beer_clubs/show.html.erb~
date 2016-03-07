@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong><%= @beer_club.name%></strong>
   
@@ -9,15 +7,31 @@
   Founded <%= @beer_club.founded %>
 </p>
 
-<p><strong>Members</strong></p>
-
+<h2>Members</h2>
 <ul>
  <% @beer_club.members.each do |member| %>
-   <li><%= link_to member.username, member%></li>
+     <li><%= link_to member.username, member%></li>
  <% end %>
 </ul>
 
 <% if current_user  %>
+ 
+ <% if current_user.in? @beer_club.members %> 
+  <h2>Outstanding applications</h2>
+  <ul>
+     <% @pending_memberships.each do |m| %>
+             <li><%= link_to m.user.username, user%></li>
+             <%= link_to "confirm", confirm_membership_path(m.id), method: :post, class: "btn btn-info" %> 
+     <% end %>
+  </ul>
+  
+ 
+ <%= form_for(@membership, method: "delete") do |f| %>
+      <%= f.hidden_field :beer_club_id %>
+      <%= f.submit value: "end the membership", class:"btn btn-danger"%>
+ <% end %>
+ <% end %> 
+
 
  <% if not current_user.in? @beer_club.members %>
   <%= form_for(@membership) do |f| %>
@@ -25,15 +39,9 @@
     <%= f.submit value:"join the club", class:"btn btn-primary"%>
   <% end %>
  <% end %>
- 
-<% if current_user.in? @beer_club.members %> 
-   
-   <%= form_for(@membership, method: "delete") do |f| %>
-      <%= f.hidden_field :beer_club_id %>
-      <%= f.submit value: "end the membership", class:"btn btn-danger"%>
-   <% end %>
- <% end %>
+    
 <% end %>
+
 
 <%= edit_and_destroy_buttons(@beer_club) %>   
 

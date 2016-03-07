@@ -1,4 +1,8 @@
 class BeerClub < ActiveRecord::Base
-  has_many :memberships
-  has_many :members, through: :memberships, source: :user 
+  has_many :memberships, dependent: :destroy
+  has_many :members, through: :memberships, source: :user
+
+  scope :confirmed, -> {joins(:memberships).where('memberships.confirmed = ?', true) } 
+  scope :not_confirmed, -> {joins(:memberships).where('memberships.confirmed = ?',[nil,false]) } 
+
 end

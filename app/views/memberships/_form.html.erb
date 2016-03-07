@@ -12,8 +12,9 @@
   <% end %>
 
   <div class="field">
+    <%= f.hidden_field :confirmed, :value => false %> 
     <%= f.label :beer_club_id %><br>
-   <%= f.select :beer_club_id, options_from_collection_for_select(@beer_clubs, :id, :name) %>
+    <%= f.select :beer_club_id, options_from_collection_for_select(@beer_clubs, :id, :name) %>
   </div>
   <div class="actions">
     <%= f.submit class:"btn btn-primary" %>

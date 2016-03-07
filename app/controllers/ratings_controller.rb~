@@ -1,11 +1,18 @@
 class RatingsController < ApplicationController
   def index
+
+     @top_beers = Rails.cache.fetch("beer top 3", expires_in:10.minutes) {Beer.top(3)}
+     @top_breweries = Rails.cache.fetch("brewery top 3",  expires_in:10.minutes) {Brewery.top(3)}
+     @top_users = Rails.cache.fetch("user top 3", expires_in:10.minutes) {User.top(3)}
+     @top_styles = Rails.cache.fetch("style top", expires_in:10.minutes) {Style.top(3)}
+     @ratings = Rails.cache.fetch("all ratings", expires_in:10.minutes) {Rating.all}
+     @recent_ratings = Rails.cache.fetch("recent ratings", expires_in:10.minutes) {Rating.recent}
+     #@top_breweries = Brewery.top 3
+     #@top_beers = Beer.top 3
+     #@top_users = User.top 3
+     #@top_styles = Style.top 3
+     #@recent_ratings = Rating.recent
      #@ratings = Rating.all
-     @top_breweries = Brewery.top 3
-     @top_beers = Beer.top 3
-     @top_users = User.top 3
-     @top_styles = Style.top 3
-     @recent = Rating.recent
   end
   
   def new
@@ -30,4 +37,8 @@ class RatingsController < ApplicationController
     rating.delete if current_user == rating.user
     redirect_to :back
   end
+
+  def expires
+    return expires_in:10.minutes
+  end    
 end

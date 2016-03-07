@@ -12,7 +12,7 @@
     <% @users.each do |user| %>
       <tr>
         <td><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <%= link_to user.username, user %>
-        <% if user.banned and (defined?(current_user.admin)) %>
+        <% if user.banned and (defined?(current_user.admin)) and current_user.admin %>
         <span class="label label-info">Account frozen</span>
         <% end %> 
         </td>   

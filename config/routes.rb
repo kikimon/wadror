@@ -11,6 +11,11 @@ Rails.application.routes.draw do
   resources :breweries do
     post 'toggle_activity', on: :member
   end  
+
+  resources :memberships do
+    post 'confirm', on: :member
+  end
+
   resources :ratings, only: [:index, :new, :create, :destroy]
   resources :styles
   resources :memberships, only: [:new, :create, :destroy]
@@ -24,6 +29,14 @@ Rails.application.routes.draw do
   get 'signin', to: 'sessions#new'
   delete 'signout', to: 'sessions#destroy'
   post 'places', to:'places#search'
+ 
+  #beerlist with javascript
+  get 'beerlist', to:'beers#list'
+  #beerlist with angularjs
+  get 'ngbeerlist', to:'beers#nglist'
+  #brewerylist with angularjs
+  get 'brewerylist', to:'breweries#nglist' 
+ 
   
 
 

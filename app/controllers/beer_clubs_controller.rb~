@@ -12,8 +12,12 @@ class BeerClubsController < ApplicationController
   # GET /beer_clubs/1.json
   def show
 
+     #@confirmation_needed = Membership.where(:confirmed => false || nil, :beer_club_id => @beer_club.id)
+     #@confirmation_needed = Membership.select("id","user_id").find_by(beer_club_id: @beer_club.id, confirmed: false || nil)
+     @pending_memberships = Membership.find_by(beer_club_id: @beer_club.id, confirmed: false || nil).to_a
+
      if current_user.in? @beer_club.members
-       @membership = Membership.find_by(beer_club_id: @beer_club.id, user_id: current_user.id)  
+       @membership = Membership.find_by(beer_club_id: @beer_club.id, user_id: current_user.id)
      else 
        @membership = Membership.new
      end
@@ -36,8 +40,12 @@ class BeerClubsController < ApplicationController
 
     respond_to do |format|
       if @beer_club.save
+        @membership = Membership.new(@beer_club, true)
+        current_user.memberships << @membership
+        @membership.save
+  
         format.html { redirect_to @beer_club, notice: 'Beer club was successfully created.' }
-        format.json { render :show, status: :created, location: @beer_club }
+        format.json { render :show, status: :created, location: @beer_club }        
       else
         format.html { render :new }
         format.json { render json: @beer_club.errors, status: :unprocessable_entity }

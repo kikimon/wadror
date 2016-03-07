@@ -20,8 +20,18 @@ group :test do
   gem 'launchy'
   gem 'simplecov', require: false
   gem 'webmock'
+  gem 'selenium-webdriver'
+  gem 'database_cleaner'
 end
 
+#MiniProfiler
+gem 'rack-mini-profiler'
+
+#OmniAuth Github
+gem 'omniauth-github'
+
+#JQuery
+gem 'jquery-turbolinks'
 
 #For password encryption
 gem 'bcrypt', '~> 3.1.7'
